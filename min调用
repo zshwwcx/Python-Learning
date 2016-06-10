@@ -1,0 +1,24 @@
+#method 1:
+def min1(*args):
+  res=args[0]
+  for arg in args[1:]:
+    if arg<res:
+      res=arg
+  return res
+  
+#method 2:
+def min2(first,*rest):
+  for arg in rest:
+    if arg<first:
+      first=arg
+  return first
+  
+#method 3:
+def min3(*args):
+  tmp=list(arg)
+  tmp.sort()
+  return tmp[0]
+  
+print(min1(3,1,2,5,4))
+print(min2('aa','te','bb','ag'))
+print(min3([2,3],[1,5],[3,3]))

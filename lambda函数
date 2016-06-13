@@ -1,0 +1,7 @@
+def func(x,y,z):
+  return x+y+z
+  
+f=lambda x,y,z:x+y+z
+f(2,3.4)
+
+x=(lambda a='free',b='fie',c='coe':a+b+c)

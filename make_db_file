@@ -1,3 +1,11 @@
+"""
+用自定义格式将内存数据库对象保存到文件中
+假定数据不使用'endrec.','enddb.'和'=>'
+嘉定数据库是字典的字典："警告"：使用eval可能存在危险，它会将字符串当做代码执行;
+也可以使用eval()一次创建一条字典记录;
+对于print(key,file=dbfile)，也可以使用dbfile.write(key+'\n')
+"""
+
 dbfilename='people-file'
 ENDDB='enddb.'
 ENDREC='endrec.'

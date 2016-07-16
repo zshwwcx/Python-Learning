@@ -11,7 +11,7 @@ ENDDB='enddb.'
 ENDREC='endrec.'
 RECSEP='=> '
 
-def storeBase(db,dbfilename=dbfilename):
+def storeDBase(db,dbfilename=dbfilename):
     dbfile=open(dbfilename,'w')
     for key in db:
         print(key,file=dbfile)
@@ -40,4 +40,4 @@ def loadDbase(dbfilename=dbfilename):
 
 if __name__=='__main__':
     from initdata import db
-    storeDbase(db)
+    storeDBase(db)

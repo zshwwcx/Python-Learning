@@ -1,3 +1,8 @@
+"""
+实现一个图形界面，用于查看和更新存储于shelve中的实例；
+该shelve保存在脚本运行的机器上，可能是一个或者多个本地文件。
+"""
+
 from tkinter import *
 from tkinter.messagebox import showerror
 import shelve

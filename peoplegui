@@ -44,7 +44,7 @@ def updateRecord():
         record=db[key]
     else:
         from person import Person
-        record=Person(Name='?',age='?')
+        record=Person(name='?',age='?')
     for field in fieldnames:
         setattr(record,field,eval(entries[field].get()))
     db[key]=record

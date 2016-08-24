@@ -8,3 +8,9 @@ def scanfile(file,function):
     function(line)
   file.close()
   
+  
+/*  
+def scanfile(file,function):
+  for line in open(file,'r'):
+    function(line)
+*/

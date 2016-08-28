@@ -1,0 +1,10 @@
+def later():
+    import sys
+    print('Bye sys world')
+    try:
+        sys.exit(42)
+    except SystemExit:
+        print('Never reached.')
+
+if __name__=='__main__':
+    later()

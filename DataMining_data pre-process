@@ -20,7 +20,8 @@ def data_process():
         subdir=os.listdir('ICML/'+folder1)
         for d in subdir:
             text=os.open('ICML/'+t+'/'+d,'r',encoding='utf-8').read()#打开ICML目录下的每一个文档进行分词处理
-            fredist=nltk.FreqDist(text.split(' ')) #获取单文件词频
+            text_tokenized=[word.lower() for word in word_tokenize(text.decode('utf-8'))]#对文件去除标点并将所有单词进行小写处理
+            fredist=nltk.FreqDist(text_tokenized) #获取单文件词频
             for key in fredist:
                 if key in stop_words_list:#如果key在stop_words_list中，不做任何处理，开始下一次循环
                     continue
@@ -30,3 +31,5 @@ def data_process():
                     dictionary[key]=fredlist[key]
 
     print(sorted(dictionary.items(),key=lambda x:x[1]))#对dictionary进行排序，输出
+
+

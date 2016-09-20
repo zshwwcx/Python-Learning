@@ -1,0 +1,32 @@
+'''
+Author:COSEC_张所昊（Suohao Zhang）
+STU_ID：MF1633066
+E_mail:zhangsh@smail.nju.edu.cn
+
+DataMining pre-process.
+'''
+
+import os
+import nltk
+
+
+dirs=os.listdir('ICML')#定义ICML位置
+dictionary={}
+stop_words_list=stopwords.words('English')#从corpus包中导入英文的stopwords
+
+
+def data_process():
+    for t in dirs:
+        subdir=os.listdir('ICML/'+folder1)
+        for d in subdir:
+            text=os.open('ICML/'+t+'/'+d,'r',encoding='utf-8').read()#打开ICML目录下的每一个文档进行分词处理
+            fredist=nltk.FreqDist(text.split(' ')) #获取单文件词频
+            for key in fredist:
+                if key in stop_words_list:#如果key在stop_words_list中，不做任何处理，开始下一次循环
+                    continue
+                if key in dictionary:#如果key在dictionary中，对dictionary中的key值进行+1处理统计
+                    dictionary[key]=dictionary[key]+fredlist[key]
+                if key not in dictionary:##如果key不在dictionary中，将其加入到dictionary中
+                    dictionary[key]=fredlist[key]
+
+    print(sorted(dictionary.items(),key=lambda x:x[1]))#对dictionary进行排序，输出

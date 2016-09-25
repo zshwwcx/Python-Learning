@@ -26,7 +26,7 @@ def data_process():
             text=open('ICML\\'+t+'\\'+d,'r',encoding='utf-8')#打开ICML目录下的每一个文档进行分词处理
 #           file_in=os.open('%s'+'_in'%(text.name),'w')
             for line in text:#对所有文档分词，存入word_list_of_all中
-                line=line.lower()
+                line=line.lower().strip('\n')
                 sens=jieba.cut(line,cut_all=True)
                 for i in sens:#将分得的所有词加入到word_list_of_all中去
                     word_list_of_all.append(i)
@@ -53,15 +53,19 @@ def data_process():
 def calculate():
     for m in range(n):
         num_in_one_file=0
+        ti=open('E:\\test\\datamining\\1\\output\\out_put_%d .txt'%(m),'w')
         for i in word_in_all[m]:
             num_in_one_file+=word_in_all[m][i]#统计一篇文档中出现的总的词频
+        
         for i in word_in_all[m]:
-            TF[i]=word_in_all[m][i]/num_in_one_file#计算TF值
+            TF[i]=float(word_in_all[m][i])/float(num_in_one_file)#计算TF值
             for key in dictionary:
                 if i==key:
-                    tt=dictionary[key]
-                    IDF[i]=math.log(n/tt)#计算IDF值
-                    value[i]=TF[i]*IDF[i]#计算TF_IDF值
+                    tt=float(dictionary[key])
+                    IDF[i]=float(math.log(float(n/tt)))#计算IDF值
+                    value[i]=float(TF[i]*IDF[i])#计算TF_IDF值
+                    ti.write('['+i+']'+'====='+str(value[i])+'\n')
+        ti.close()
 
 
 
@@ -70,11 +74,15 @@ def calculate():
   
                               
 def out_put():
-    for i in value:
-        print(i+'------'+value[i])
+    di=os.listdir('output')
+    for i in di:
+        tn=open('E:\\test\\datamining\\1\\output\\'+i,'r')
+        tn.read()
+
+       
 
 
-
-data_process()
-calculate()
-out_put()
+if __name__=='__main__':
+    data_process()
+    calculate()
+    #out_put() 

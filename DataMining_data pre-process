@@ -1,35 +1,80 @@
-'''
-Author:COSEC_张所昊（Suohao Zhang）
-STU_ID：MF1633066
-E_mail:zhangsh@smail.nju.edu.cn
-
-DataMining pre-process.
-'''
-
 import os
 import nltk
+import sys
+import jieba
+import math
+
+os.chdir("E:\\test\\datamining\\1")
 
 
 dirs=os.listdir('ICML')#定义ICML位置
-dictionary={}
-stop_words_list=stopwords.words('English')#从corpus包中导入英文的stopwords
-
+dictionary={}#字典，用来统计包含同一个词的文档总数
+stop_words_list=nltk.corpus.stopwords.words('english')#从corpus包中导入英文的stopwords
+word_list_of_all=[]#用来存储所有文档中的所有单词，可能会有重复的
+word_in_all={}#二层字典，第一层{键：文档的编号(从0开始，到最后一个),值:字典}，第二层{键：单词，值：频次}
+n=0
+TF={}
+IDF={}
+value={}
 
 def data_process():
+    global n
     for t in dirs:
-        subdir=os.listdir('ICML/'+folder1)
+        subdir=os.listdir('ICML\\'+t)
         for d in subdir:
-            text=os.open('ICML/'+t+'/'+d,'r',encoding='utf-8').read()#打开ICML目录下的每一个文档进行分词处理
-            text_tokenized=[word.lower() for word in word_tokenize(text.decode('utf-8'))]#对文件去除标点并将所有单词进行小写处理
-            fredist=nltk.FreqDist(text_tokenized) #获取单文件词频
-            for key in fredist:
+            word_in_one_file={}
+            text=open('ICML\\'+t+'\\'+d,'r',encoding='utf-8')#打开ICML目录下的每一个文档进行分词处理
+#           file_in=os.open('%s'+'_in'%(text.name),'w')
+            for line in text:#对所有文档分词，存入word_list_of_all中
+                line=line.lower()
+                sens=jieba.cut(line,cut_all=True)
+                for i in sens:#将分得的所有词加入到word_list_of_all中去
+                    word_list_of_all.append(i)
+                    if i in stop_words_list:
+                        continue
+                    if i not in word_in_one_file:
+                        word_in_one_file[i]=1
+                    if i in word_in_one_file:
+                        word_in_one_file[i]+=1
+#                    file_in.write(i+'\n')#将每篇文章分得的词写入到单独的文档中去
+            word_in_all[n]=word_in_one_file
+            n=n+1
+                
+            for key in word_list_of_all:
                 if key in stop_words_list:#如果key在stop_words_list中，不做任何处理，开始下一次循环
                     continue
                 if key in dictionary:#如果key在dictionary中，对dictionary中的key值进行+1处理统计
-                    dictionary[key]=dictionary[key]+fredlist[key]
+                    dictionary[key]=dictionary[key]+1
                 if key not in dictionary:##如果key不在dictionary中，将其加入到dictionary中
-                    dictionary[key]=fredlist[key]
-
-    print(sorted(dictionary.items(),key=lambda x:x[1]))#对dictionary进行排序，输出
+                    dictionary[key]=1
 
 
+
+def calculate():
+    for m in range(n):
+        num_in_one_file=0
+        for i in word_in_all[m]:
+            num_in_one_file+=word_in_all[m][i]#统计一篇文档中出现的总的词频
+        for i in word_in_all[m]:
+            TF[i]=word_in_all[m][i]/num_in_one_file#计算TF值
+            for key in dictionary:
+                if i==key:
+                    tt=dictionary[key]
+                    IDF[i]=math.log(n/tt)#计算IDF值
+                    value[i]=TF[i]*IDF[i]#计算TF_IDF值
+
+
+
+
+                    
+  
+                              
+def out_put():
+    for i in value:
+        print(i+'------'+value[i])
+
+
+
+data_process()
+calculate()
+out_put()

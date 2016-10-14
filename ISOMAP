@@ -1,0 +1,46 @@
+import numpy as np
+import os
+
+os.chdir(r'F:\Courses\DataMining\Homework\2\data')
+
+for file_name in os.listdir():
+    file_of_prime_data=open(r'%s'%file_name,'r')
+    out_put_file=open(r'F:\Courses\DataMining\Homework\2\output\ISOMAP\%s'%iterator_file,'a')
+    
+    #预处理数据，将原始文本数据转化为matrix形式
+    for line in file_of_prime_data:
+        list_of_prime_string=line.split(',')#原始数据，末位标识符为1/-1，数据类型为string，保留最后一位以便后续比较。
+        list_of_prime_data=[]#存放原始的float类型数据，用于具体实验处理，保留末位标识符
+        for var in list_of_prime_string:
+            list_of_prime_data.append(float(var))
+            list_of_prime_data=np.matrix(list_of_prime_data)#将数据转化为matrix形式，以便于计算
+
+    #k临近算法，得到每个点的一个临近，暂时取k=4，记录每个点到其他点的距离weighted graph,存放在list_of_distance中
+        x,y=np.shape(list_of_prime_data)
+        tm=[]
+        #构造存放迪杰斯特拉算法的输入距离矩阵
+        for t in range(x):
+            for m in range(x):
+                tm.append(0)
+            list_of_distance.append(tm)
+        list_of_distance=np.matrix(list_of_distance)
+        matrix_of_dijistra=list_of_distance.copy()
+
+        num_of_destination=0
+        count_now=0
+        for count_now in range(x):
+            distance_of_vector=[]#存放原始数据每一个向量到其他向量的距离
+            for num_of_destination in range(x):
+                cpt=np.linalg.norm(list_of_prime_data[count_now,:-1]-list_of_prime_data[num_of_destination,:-1])
+                list_of_distance[count_now,num_of_destination]=cpt#一个x*x的距离矩阵
+        for count_now in range(x):
+            col=0
+            while col<4:
+                num=list_of_distance[count_now,:].argmax()
+                max_value=list_of_distance[count_now,:].max()
+                matrix_of_dijistra[count_now,col]=max_value#完成dijistra输入矩阵构造
+
+
+
+
+
